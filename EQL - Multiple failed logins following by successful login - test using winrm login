@@ -1,1 +1,26 @@
+Test Rule: https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_bruteforce_multiple_logon_failure_followed_by_success.toml
 
+
+Scenario Description:
+
+I tested an EQL rule designed to detect multiple failed logins immediately followed by a successful login. The idea was to simulate suspicious login behavior similar to a brute-force attempt.
+
+- Source: Windows Event Logs (Security logs)
+- Machines Tested: Windows 11 endpoints (2 test machines)
+- Accounts Used: One standard user account
+
+I triggered several failed login attempts on the test account and then completed a successful login to see if the rule would detect the pattern.
+
+i used the following powershell log on the source machine:
+# Trigger failed login attempts
+$User = "TestUser"
+$PasswordWrong = "WrongPassword"
+for ($i=0; $i -lt 5; $i++) {
+    Start-Process "runas.exe" -ArgumentList "/user:$User powershell.exe" -Wait -ErrorAction SilentlyContinue
+    # Entering wrong password manually or via a script
+}
+
+# Trigger a successful login
+$PasswordCorrect = "CorrectPassword"
+Start-Process "runas.exe" -ArgumentList "/user:$User powershell.exe" -Wait
+# Enter the correct password to complete a successful login
