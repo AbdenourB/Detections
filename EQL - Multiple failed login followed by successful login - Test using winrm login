@@ -145,6 +145,6 @@ A rule that can match the behavior is :
     not user.name : ("ANONYMOUS LOGON", "-", "*$") and not user.domain == "NT AUTHORITY"]
 ```
 
-### I need to try this with another logon types, such as RDP, and see if get the same bahvior.
+### I need to try this with another logon types, such as RDP, and see if get the same behavior.
 
 つづく ...
